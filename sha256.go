@@ -36,7 +36,6 @@ func NewDigest(data []byte) Digest {
 
 func (digest *Digest) Hash() [32]byte {
 	for _, chunk := range digest.chunks {
-
 		a := digest.h[0]
 		b := digest.h[1]
 		c := digest.h[2]
@@ -100,9 +99,15 @@ func (digest *Digest) Hash() [32]byte {
 func PreProcessing(data []byte) []byte {
 	length := len(data) * 8
 	data = append(data, byte(128))
-	for len(data)%BlockSize != 56 {
-		data = append(data, byte(0))
+
+	if len(data) < 56{
+		padding := make([]byte, 56- len(data))
+		data =append(data, padding...)
+	} else {
+		padding := make([]byte, 110- len(data))
+		data =append(data, padding...)
 	}
+
 	lengthBytes := make([]byte, 8)
 	binary.BigEndian.PutUint64(lengthBytes, uint64(length))
 	data = append(data, lengthBytes...)
