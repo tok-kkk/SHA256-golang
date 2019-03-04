@@ -13,7 +13,7 @@ var _ = Describe("sha256", func() {
 		It("should return the right hash", func() {
 			// input := "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
 			// log.Println(hex.EncodeToString(Sha256([]byte(input))))
-			Expect(quick.CheckEqual(Sha256, sha256.Sum256,nil)).NotTo(HaveOccurred())
+			Expect(quick.CheckEqual(Sha256, sha256.Sum256, nil)).NotTo(HaveOccurred())
 
 			Expect(true).Should(BeTrue())
 		})
