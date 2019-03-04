@@ -73,7 +73,6 @@ func (digest *Digest) Hash() [32]byte {
 			c = b
 			b = a
 			a = temp1 + temp2
-			// log.Printf("%08x %08x %08x %08x %08x %08x %08x %08x", a, b, c, d, e, f, g, h)
 		}
 
 		digest.h[0] = digest.h[0] + a
