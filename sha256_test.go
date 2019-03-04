@@ -17,7 +17,6 @@ var _ = Describe("sha256", func() {
 	})
 })
 
-
 func BenchmarkSha256(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		Sha256([]byte("abcdefghijklmnopqrstuvwxyz"))

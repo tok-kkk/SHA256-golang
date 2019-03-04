@@ -84,15 +84,17 @@ func (digest *Digest) Hash() [32]byte {
 		digest.h[7] = digest.h[7] + h
 	}
 
-	hash := make([]byte, 0)
+	hash := [32]byte{}
 	for i := range digest.h {
 		bytes := make([]byte, 4)
 		binary.BigEndian.PutUint32(bytes, digest.h[i])
-		hash = append(hash, bytes...)
+		start := 4 * i
+		for j := start; j < start+4; j++ {
+			hash[j] = bytes[j-start]
+		}
 	}
-	var hash32 [32]byte
-	copy(hash32[:], hash)
-	return hash32
+
+	return hash
 }
 
 // After pre-processing we got either 512 or 1024 bits
@@ -100,12 +102,12 @@ func PreProcessing(data []byte) []byte {
 	length := len(data) * 8
 	data = append(data, byte(128))
 
-	if len(data) < 56{
-		padding := make([]byte, 56- len(data))
-		data =append(data, padding...)
+	if len(data) < 56 {
+		padding := make([]byte, 56-len(data))
+		data = append(data, padding...)
 	} else {
-		padding := make([]byte, 110- len(data))
-		data =append(data, padding...)
+		padding := make([]byte, 110-len(data))
+		data = append(data, padding...)
 	}
 
 	lengthBytes := make([]byte, 8)
